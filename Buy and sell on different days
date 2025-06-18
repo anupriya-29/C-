@@ -1,0 +1,39 @@
+#include <stdio.h>
+
+int maxProfit(int prices[], int n) {
+    if (n == 0) return 0;
+
+    int minPrice = prices[0];
+    int maxProfit = 0;
+
+    for (int i = 1; i < n; i++) {
+        // Update maxProfit if selling at prices[i] is better
+        if (prices[i] - minPrice > maxProfit) {
+            maxProfit = prices[i] - minPrice;
+        }
+
+        // Update minPrice if current price is lower
+        if (prices[i] < minPrice) {
+            minPrice = prices[i];
+        }
+    }
+
+    return maxProfit;
+}
+
+int main() {
+    int n;
+    printf("Enter number of days: ");
+    scanf("%d", &n);
+
+    int prices[n];
+    printf("Enter the stock prices for each day:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &prices[i]);
+    }
+
+    int profit = maxProfit(prices, n);
+    printf("Maximum profit with one transaction: %d\n", profit);
+
+    return 0;
+}
