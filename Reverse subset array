@@ -1,0 +1,43 @@
+#include <stdio.h>
+
+void reverse(int arr[], int start, int end) {
+    while (start < end) {
+        int temp = arr[start];
+        arr[start] = arr[end];
+        arr[end] = temp;
+        start++;
+        end--;
+    }
+}
+
+void reverseInGroups(int arr[], int n, int k) {
+    for (int i = 0; i < n; i += k) {
+        int left = i;
+        int right = (i + k - 1 < n) ? (i + k - 1) : (n - 1);
+        reverse(arr, left, right);
+    }
+}
+
+int main() {
+    int n, k;
+
+    printf("Enter the size of the array: ");
+    scanf("%d", &n);
+
+    int arr[n];
+
+    printf("Enter the array elements:\n");
+    for (int i = 0; i < n; i++)
+        scanf("%d", &arr[i]);
+
+    printf("Enter the group size (k): ");
+    scanf("%d", &k);
+
+    reverseInGroups(arr, n, k);
+
+    printf("Array after reversing every %d elements:\n", k);
+    for (int i = 0; i < n; i++)
+        printf("%d ", arr[i]);
+
+    return 0;
+}
