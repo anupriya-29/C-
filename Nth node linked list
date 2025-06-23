@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define the node structure
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+// Function to find the Nth node from the end
+int getNthFromEnd(struct Node* head, int N) {
+    struct Node* first = head;
+    struct Node* second = head;
+
+    // Move first N steps ahead
+    for (int i = 0; i < N; i++) {
+        if (first == NULL) return -1;  // N is greater than number of nodes
+        first = first->next;
+    }
+
+    // Move both first and second until first reaches the end
+    while (first != NULL) {
+        first = first->next;
+        second = second->next;
+    }
+
+    // second is now at the Nth node from the end
+    if (second != NULL)
+        return second->data;
+    else
+        return -1;
+}
+
+// Utility function to create a new node
+struct Node* newNode(int data) {
+    struct Node* temp = (struct Node*)malloc(sizeof(struct Node));
+    temp->data = data;
+    temp->next = NULL;
+    return temp;
+}
+
+// Example usage
+int main() {
+    // Creating a linked list: 10 -> 20 -> 30 -> 40 -> 50
+    struct Node* head = newNode(10);
+    head->next = newNode(20);
+    head->next->next = newNode(30);
+    head->next->next->next = newNode(40);
+    head->next->next->next->next = newNode(50);
+
+    int N = 2;
+    int result = getNthFromEnd(head, N);
+
+    if (result != -1)
+        printf("The %dth node from the end is: %d\n", N, result);
+    else
+        printf("There is no %dth node from the end.\n", N);
+
+    return 0;
+}
