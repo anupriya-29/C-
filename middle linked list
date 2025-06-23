@@ -1,0 +1,104 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Node structure
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+// Function to create a new node
+struct Node* newNode(int data) {
+    struct Node* temp = (struct Node*)malloc(sizeof(struct Node));
+    temp->data = data;
+    temp->next = NULL;
+    return temp;
+}
+
+// Function to append a node at the end
+void appendNode(struct Node** headRef, int data) {
+    struct Node* temp = newNode(data);
+    if (*headRef == NULL) {
+        *headRef = temp;
+        return;
+    }
+    struct Node* current = *headRef;
+    while (current->next != NULL) {
+        current = current->next;
+    }
+    current->next = temp;
+}
+
+// Function to print the list
+void printList(struct Node* head) {
+    struct Node* current = head;
+    while (current != NULL) {
+        printf("%d ", current->data);
+        current = current->next;
+    }
+    printf("\n");
+}
+
+// Function to find and print middle element(s)
+void printMiddle(struct Node* head) {
+    struct Node* slow = head;
+    struct Node* fast = head;
+    struct Node* prev = NULL;
+
+    if (head == NULL) {
+        printf("The list is empty.\n");
+        return;
+    }
+
+    while (fast != NULL && fast->next != NULL) {
+        fast = fast->next->next;
+        prev = slow;
+        slow = slow->next;
+    }
+
+    if (fast == NULL && prev != NULL) {
+        // Even number of elements, print two middle nodes
+        printf("The middle elements are: %d and %d\n", prev->data, slow->data);
+    } else {
+        // Odd number of elements, print single middle node
+        printf("The middle element is: %d\n", slow->data);
+    }
+}
+
+// Function to free memory
+void freeList(struct Node* head) {
+    struct Node* temp;
+    while (head != NULL) {
+        temp = head;
+        head = head->next;
+        free(temp);
+    }
+}
+
+// Driver code
+int main() {
+    int n, val, i;
+    struct Node* head = NULL;
+
+    printf("Enter number of nodes: ");
+    scanf("%d", &n);
+
+    if (n <= 0) {
+        printf("List is empty.\n");
+        return 0;
+    }
+
+    printf("Enter %d node values: ", n);
+    for (i = 0; i < n; i++) {
+        scanf("%d", &val);
+        appendNode(&head, val);
+    }
+
+    printf("Linked List: ");
+    printList(head);
+
+    printMiddle(head);
+
+    freeList(head);
+    return 0;
+}
